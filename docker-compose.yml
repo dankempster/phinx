@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+    phpunit:
+        build:
+            context: docker/phpunit
+            args:
+                GITHUB_TOKEN: f806fb9ea94a59a3403f864dda1b1d93e0190c1d
+        volumes:
+            - .:/project
+        working_dir: /project
+        depends_on:
+            - phpunit_mariadb
+
+    phpunit_mariadb:
+        image: mariadb:10.0
+        environment:
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: phinx_testing
