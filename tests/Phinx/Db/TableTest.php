@@ -202,8 +202,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
     public function testAddComment()
     {
-        $adapter = new MysqlAdapter([]);
-        $table = new \Phinx\Db\Table('ntable', ['comment' => 'test comment'], $adapter);
+        $adapter = new MysqlAdapter(array());
+        $table = new \Phinx\Db\Table('ntable', array('comment' => 'test comment'), $adapter);
         $options = $table->getOptions();
         $this->assertEquals('test comment', $options['comment']);
     }

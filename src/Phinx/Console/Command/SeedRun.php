@@ -71,7 +71,7 @@ EOT
 
         $seed        = $input->getOption('seed');
         $environment = $input->getOption('environment');
-        $seedSet     = (strstr($seed, ',') !== false) ? explode(',', $seed) : [$seed];
+        $seedSet     = (strstr($seed, ',') !== false) ? explode(',', $seed) : array($seed);
 
         if (null === $environment) {
             $environment = $this->getConfig()->getDefaultEnvironment();

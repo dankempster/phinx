@@ -687,7 +687,7 @@ class PostgresAdapterTest extends \PHPUnit_Framework_TestCase
     public function testCreateTableWithComment()
     {
         $tableComment = 'Table comment';
-        $table = new \Phinx\Db\Table('ntable', ['comment' => $tableComment], $this->adapter);
+        $table = new \Phinx\Db\Table('ntable', array('comment' => $tableComment), $this->adapter);
         $table->addColumn('realname', 'string')
               ->save();
         $this->assertTrue($this->adapter->hasTable('ntable'));

@@ -133,10 +133,10 @@ class AbstractMigrationTest extends \PHPUnit_Framework_TestCase
         $adapterStub->expects($this->once())
                     ->method('insert');
 
-        $table = new Table('testdb', [], $adapterStub);
+        $table = new Table('testdb', array(), $adapterStub);
 
         $migrationStub->setAdapter($adapterStub);
-        $migrationStub->insert($table, ['row' => 'value']);
+        $migrationStub->insert($table, array('row' => 'value'));
     }
 
     public function testCreateDatabase()
