@@ -37,14 +37,6 @@ namespace Phinx\Config;
 interface ConfigInterface extends \ArrayAccess
 {
     /**
-     * Class Constructor
-     *
-     * @param array $configArray Config Array
-     * @param string $configFilePath Optional File Path
-     */
-    public function __construct(array $configArray, $configFilePath = null);
-
-    /**
      * Returns the configuration for each environment.
      *
      * This method returns <code>null</code> if no environments exist.
@@ -88,18 +80,18 @@ interface ConfigInterface extends \ArrayAccess
     public function getConfigFilePath();
 
     /**
-     * Gets the path of the migration files.
+     * Gets the paths to search for migration files.
      *
-     * @return string
+     * @return string[]
      */
-    public function getMigrationPath();
+    public function getMigrationPaths();
 
     /**
-     * Gets the path of the seed files.
+     * Gets the paths to search for seed files.
      *
-     * @return string
+     * @return string[]
      */
-    public function getSeedPath();
+    public function getSeedPaths();
 
      /**
      * Get the template file name.
@@ -113,6 +105,13 @@ interface ConfigInterface extends \ArrayAccess
      *
      * @return string|false
      */
-     public function getTemplateClass();
+    public function getTemplateClass();
 
+    /**
+     * Gets the base class name for migrations.
+     *
+     * @param boolean $dropNamespace Return the base migration class name without the namespace.
+     * @return string
+     */
+    public function getMigrationBaseClassName($dropNamespace = true);
 }

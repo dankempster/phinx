@@ -195,17 +195,44 @@ class ConfigTest extends AbstractConfigTest
     public function testGetSeedPath()
     {
         $config = new \Phinx\Config\Config(array('paths' => array('seeds' => 'db/seeds')));
-        $this->assertEquals('db/seeds', $config->getSeedPath());
+        $this->assertEquals(array('db/seeds'), $config->getSeedPaths());
+
+        $config = new \Phinx\Config\Config(array('paths' => array('seeds' => array('db/seeds1', 'db/seeds2'))));
+        $this->assertEquals(array('db/seeds1', 'db/seeds2'), $config->getSeedPaths());
     }
 
     /**
-     * @covers \Phinx\Config\Config::getSeedPath
+     * @covers \Phinx\Config\Config::getSeedPaths
      * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Seeds path missing from config file
      */
     public function testGetSeedPathThrowsException()
     {
         $config = new \Phinx\Config\Config(array());
-        $this->assertEquals('db/seeds', $config->getSeedPath());
+        $this->assertEquals('db/seeds', $config->getSeedPaths());
+    }
+
+    /**
+     * Checks if base class is returned correctly when specified without
+     * a namespace.
+     *
+     * @covers \Phinx\Config\Config::getMigrationBaseClassName
+     */
+    public function testGetMigrationBaseClassNameNoNamespace()
+    {
+        $config = new Config(array('migration_base_class' => 'BaseMigration'));
+        $this->assertEquals('BaseMigration', $config->getMigrationBaseClassName());
+    }
+
+    /**
+     * Checks if base class is returned correctly when specified without
+     * a namespace.
+     *
+     * @covers \Phinx\Config\Config::getMigrationBaseClassName
+     */
+    public function testGetMigrationBaseClassNameNoNamespaceNoDrop()
+    {
+        $config = new Config(array('migration_base_class' => 'BaseMigration'));
+        $this->assertEquals('BaseMigration', $config->getMigrationBaseClassName(false));
     }
 }

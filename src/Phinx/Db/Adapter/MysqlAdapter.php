@@ -382,7 +382,7 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
         if (is_string($default) && 'CURRENT_TIMESTAMP' !== $default) {
             $default = $this->getConnection()->quote($default);
         } elseif (is_bool($default)) {
-            $default = (int) $default;
+            $default = $this->castToBool($default);
         }
         return isset($default) ? ' DEFAULT ' . $default : '';
     }
@@ -627,7 +627,6 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
             return false;
         } else {
             foreach ($foreignKeys as $key) {
-                $a = array_diff($columns, $key['columns']);
                 if ($columns == $key['columns']) {
                     return true;
                 }
@@ -1034,6 +1033,8 @@ class MysqlAdapter extends PdoAdapter implements AdapterInterface
         if (($values = $column->getValues()) && is_array($values)) {
             $def .= "('" . implode("', '", $values) . "')";
         }
+        $def .= $column->getEncoding() ? ' CHARACTER SET ' . $column->getEncoding() : '';
+        $def .= $column->getCollation() ? ' COLLATE ' . $column->getCollation() : '';
         $def .= (!$column->isSigned() && isset($this->signedColumnTypes[$column->getType()])) ? ' unsigned' : '' ;
         $def .= ($column->isNull() == false) ? ' NOT NULL' : ' NULL';
         $def .= ($column->isIdentity()) ? ' AUTO_INCREMENT' : '';
