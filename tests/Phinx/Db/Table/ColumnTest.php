@@ -13,6 +13,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     public function testSetOptionThrowsExceptionIfOptionIsNotString()
     {
         $column = new Column();
-        $column->setOptions(['identity']);
+        $column->setOptions(array('identity'));
     }
 }

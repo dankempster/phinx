@@ -188,7 +188,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $adapterStub->expects($this->once())
                     ->method('changeColumn');
         $table = new \Phinx\Db\Table('ntable', array(), $adapterStub);
-        $table->changeColumn('test1', 'text', ['null' => false]);
+        $table->changeColumn('test1', 'text', array('null' => false));
     }
 
     public function testDropForeignKey()
@@ -222,14 +222,14 @@ class TableTest extends \PHPUnit_Framework_TestCase
             ->setConstructorArgs(array(array()))
             ->getMock();
         $table = new \Phinx\Db\Table('ntable', array(), $adapterStub);
-        $data = [
+        $data = array(
             'column1' => 'value1',
             'column2' => 'value2',
-        ];
+        );
         $table->insert($data);
-        $expectedData = [
+        $expectedData = array(
             $data,
-        ];
+        );
         $this->assertEquals($expectedData, $table->getData());
     }
 
@@ -287,7 +287,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $adapterStub->expects($this->once())
                     ->method('dropIndex');
         $table = new \Phinx\Db\Table('ntable', array(), $adapterStub);
-        $table->removeIndex(['email']);
+        $table->removeIndex(array('email'));
     }
 
     public function testRemoveIndexByName()
@@ -320,8 +320,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
             ->setConstructorArgs(array(array()))
             ->getMock();
         $table = new \Phinx\Db\Table('ntable', array(), $adapterStub);
-        $columns = ["column1"];
-        $data = [["value1"]];
+        $columns = array("column1");
+        $data = array(array("value1"));
         $table->insert($columns, $data)->save();
         $this->assertEquals(array(), $table->getData());
     }

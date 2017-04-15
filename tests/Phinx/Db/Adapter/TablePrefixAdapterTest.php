@@ -27,7 +27,7 @@ class TablePrefixAdapterTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->mock = $this->getMockBuilder('\Phinx\Db\Adapter\PdoAdapter')
-            ->setConstructorArgs([[]])
+            ->setConstructorArgs(array(array()))
             ->getMock();
 
         $this->mock

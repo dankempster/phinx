@@ -13,6 +13,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testSetOptionThrowsExceptionIfOptionIsNotString()
     {
         $column = new Index();
-        $column->setOptions(['type']);
+        $column->setOptions(array('type'));
     }
 }

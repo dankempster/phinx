@@ -64,7 +64,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        $this->input = new ArrayInput([]);
+        $this->input = new ArrayInput(array());
         $this->output = new StreamOutput(fopen('php://memory', 'a', false));
     }
 
