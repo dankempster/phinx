@@ -51,7 +51,7 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
             )
         ));
 
-        $this->input = new ArrayInput([]);
+        $this->input = new ArrayInput(array());
         $this->output = new StreamOutput(fopen('php://memory', 'a', false));
     }
 
@@ -66,7 +66,7 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
         // mock the manager class
         /** @var Manager|PHPUnit_Framework_MockObject_MockObject $managerStub */
         $managerStub = $this->getMockBuilder('\Phinx\Migration\Manager')
-            ->setConstructorArgs([$this->config, $this->input, $this->output])
+            ->setConstructorArgs(array($this->config, $this->input, $this->output))
             ->getMock();
         $managerStub->expects($this->once())
                     ->method('migrate');
@@ -92,7 +92,7 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
         // mock the manager class
         /** @var Manager|PHPUnit_Framework_MockObject_MockObject $managerStub */
         $managerStub = $this->getMockBuilder('\Phinx\Migration\Manager')
-            ->setConstructorArgs([$this->config, $this->input, $this->output])
+            ->setConstructorArgs(array($this->config, $this->input, $this->output))
             ->getMock();
         $managerStub->expects($this->any())
                     ->method('migrate');
@@ -118,7 +118,7 @@ class MigrateTest extends \PHPUnit_Framework_TestCase
         // mock the manager class
         /** @var Manager|PHPUnit_Framework_MockObject_MockObject $managerStub */
         $managerStub = $this->getMockBuilder('\Phinx\Migration\Manager')
-            ->setConstructorArgs([$this->config, $this->input, $this->output])
+            ->setConstructorArgs(array($this->config, $this->input, $this->output))
             ->getMock();
         $managerStub->expects($this->once())
                     ->method('migrate');

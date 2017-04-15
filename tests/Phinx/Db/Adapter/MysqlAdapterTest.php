@@ -26,7 +26,7 @@ class MysqlAdapterTest extends \PHPUnit_Framework_TestCase
             'pass' => TESTS_PHINX_DB_ADAPTER_MYSQL_PASSWORD,
             'port' => TESTS_PHINX_DB_ADAPTER_MYSQL_PORT
         );
-        $this->adapter = new MysqlAdapter($options, new ArrayInput([]), new NullOutput());
+        $this->adapter = new MysqlAdapter($options, new ArrayInput(array()), new NullOutput());
 
         // ensure the database is empty for each test
         $this->adapter->dropDatabase($options['name']);
@@ -65,7 +65,7 @@ class MysqlAdapterTest extends \PHPUnit_Framework_TestCase
         );
 
         try {
-            $adapter = new MysqlAdapter($options, new ArrayInput([]), new NullOutput());
+            $adapter = new MysqlAdapter($options, new ArrayInput(array()), new NullOutput());
             $adapter->connect();
             $this->fail('Expected the adapter to throw an exception');
         } catch (\InvalidArgumentException $e) {
@@ -91,7 +91,7 @@ class MysqlAdapterTest extends \PHPUnit_Framework_TestCase
             'unix_socket' => TESTS_PHINX_DB_ADAPTER_MYSQL_UNIX_SOCKET,
         );
 
-        $adapter = new MysqlAdapter($options, new ArrayInput([]), new NullOutput());
+        $adapter = new MysqlAdapter($options, new ArrayInput(array()), new NullOutput());
         $adapter->connect();
 
         $this->assertInstanceOf('\PDO', $this->adapter->getConnection());
@@ -141,7 +141,7 @@ class MysqlAdapterTest extends \PHPUnit_Framework_TestCase
     public function testCreateTableWithComment()
     {
         $tableComment = 'Table comment';
-        $table = new \Phinx\Db\Table('ntable', ['comment' => $tableComment], $this->adapter);
+        $table = new \Phinx\Db\Table('ntable', array('comment' => $tableComment), $this->adapter);
         $table->addColumn('realname', 'string')
               ->save();
         $this->assertTrue($this->adapter->hasTable('ntable'));

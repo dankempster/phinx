@@ -30,7 +30,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $config = new Config($this->getConfigArray());
-        $this->input = new ArrayInput([]);
+        $this->input = new ArrayInput(array());
         $this->output = new StreamOutput(fopen('php://memory', 'a', false));
         $this->output->setDecorated(false);
         $this->manager = new Manager($config, $this->input, $this->output);
@@ -82,7 +82,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $envStub->expects($this->once())
                 ->method('getVersionLog')
@@ -122,7 +122,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $envStub->expects($this->once())
                 ->method('getVersionLog')
@@ -161,7 +161,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
 
         // override the migrations directory to an empty one
@@ -184,7 +184,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $envStub->expects($this->once())
                 ->method('getVersionLog')
@@ -224,7 +224,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $envStub->expects($this->once())
                 ->method('getVersionLog')
@@ -265,7 +265,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $envStub->expects($this->once())
                 ->method('getVersionLog')
@@ -353,7 +353,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         if (is_null($expectedMigration)) {
             $envStub->expects($this->never())
@@ -383,7 +383,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $envStub->expects($this->any())
             ->method('getVersionLog')
@@ -407,16 +407,16 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $envStub->expects($this->any())
                 ->method('getVersionLog')
-                ->will($this->returnValue([
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                ]));
+                ->will($this->returnValue(array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                )));
         $envStub->expects($this->any())
                 ->method('getVersions')
-                ->will($this->returnValue([20120111235330]));
+                ->will($this->returnValue(array(20120111235330)));
 
         $this->manager->setEnvironments(array('mockenv' => $envStub));
         $this->manager->rollback('mockenv');
@@ -429,30 +429,30 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $envStub->expects($this->any())
                 ->method('getVersionLog')
                 ->will(
                     $this->returnValue(
-                        [
-                            '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                            '20120116183504' => ['version' => '20120815145812', 'migration' => '', 'breakpoint' => 0],
-                        ]
+                        array(
+                            '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                            '20120116183504' => array('version' => '20120815145812', 'migration' => '', 'breakpoint' => 0),
+                        )
                     )
                 );
         $envStub->expects($this->any())
                 ->method('getVersions')
                 ->will(
                     $this->returnValue(
-                        [
+                        array(
                             20120111235330,
                             20120116183504,
-                        ]
+                        )
                     )
                 );
 
-        $this->manager->setEnvironments(['mockenv' => $envStub]);
+        $this->manager->setEnvironments(array('mockenv' => $envStub));
         $this->manager->rollback('mockenv');
         rewind($this->manager->getOutput()->getStream());
         $output = stream_get_contents($this->manager->getOutput()->getStream());
@@ -481,207 +481,207 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function rollbackDateDataProvider()
     {
-        return [
+        return array(
 
             // No breakpoints set
 
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20130118',
                 null,
                 'Failed to rollback 0 migrations when rollback to date is later than all migrations - no breakpoints set',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20120116183504',
                 '`No migrations to rollback`',
                 'Failed to rollback 0 migrations when rollback to date is the most recent migration - no breakpoints set',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20120115',
                 '`20120116183504`',
                 'Failed to rollback 1 migration when rollback date is between 2 migrations - no breakpoints set',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20120111235330',
                 '`20120116183504`',
                 'Failed to rollback 1 migration when rollback datetime is the one of the migrations - no breakpoints set',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20110115',
                 '`20120111235330`',
                 'Failed to rollback all the migrations when the rollback date is before all the migrations - no breakpoints set',
-            ],
+            ),
 
             // Breakpoint set on first migration
 
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20130118',
                 null,
                 'Failed to rollback 0 migrations when rollback to date is later than all migrations - breakpoint set on first migration',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20120116183504',
                 '`No migrations to rollback`',
                 'Failed to rollback 0 migrations when rollback to date is the most recent migration - breakpoint set on first migration',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20120115',
                 '`20120116183504`',
                 'Failed to rollback 1 migration when rollback date is between 2 migrations - breakpoint set on first migration',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20120111235330',
                 '`20120116183504`',
                 'Failed to rollback 1 migration when rollback datetime is the one of the migrations - breakpoint set on first migration',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 0],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 0),
+                ),
                 '20110115',
                 '`(?!.*20120111235330.*)20120116183504.*Breakpoint reached.*`s',
                 'Failed to rollback 1 migration when the rollback date is before all the migrations and breakpoint set on first migration',
-            ],
+            ),
 
             // Breakpoint set on last migration
 
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20130118',
                 null,
                 'Failed to rollback 0 migrations when rollback to date is later than all migrations - breakpoint set on last migration',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20120116183504',
                 '`No migrations to rollback`',
                 'Failed to rollback 0 migrations when rollback to date is the most recent migration - breakpoint set on last migration',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20120115',
                 '`(?!.*20120116183504.*).*Breakpoint reached.*`s',
                 'Failed to rollback 0 migrations when rollback date is between 2 migrations and breakpoint set on last migration',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20120111235330',
                 '`(?!.*20120116183504.*).*Breakpoint reached.*`s',
                 'Failed to rollback 0 migrations when rollback datetime is the one of the migrations and breakpoint set on last migration',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 0],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 0),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20110115',
                 '`(?!.*20120116183504.*).*Breakpoint reached.*`s',
                 'Failed to rollback 0 migrations when the rollback date is before all the migrations and breakpoint set on last migration',
-            ],
+            ),
 
             // Breakpoint set on all migration
 
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20130118',
                 null,
                 'Failed to rollback 0 migrations when rollback to date is later than all migrations - breakpoint set on all migrations',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20120116183504',
                 '`No migrations to rollback`',
                 'Failed to rollback 0 migrations when rollback to date is the most recent migration - breakpoint set on all migrations',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20120115',
                 '`(?!.*20120116183504.*).*Breakpoint reached.*`s',
                 'Failed to rollback 0 migrations when rollback date is between 2 migrations and breakpoint set on all migrations',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20120111235330',
                 '`(?!.*20120116183504.*).*Breakpoint reached.*`s',
                 'Failed to rollback 0 migrations when rollback datetime is the one of the migrations and breakpoint set on all migrations',
-            ],
-            [
-                [
-                    '20120111235330' => ['version' => '20120111235330', 'migration' => '', 'breakpoint' => 1],
-                    '20120116183504' => ['version' => '20120116183504', 'migration' => '', 'breakpoint' => 1],
-                ],
+            ),
+            array(
+                array(
+                    '20120111235330' => array('version' => '20120111235330', 'migration' => '', 'breakpoint' => 1),
+                    '20120116183504' => array('version' => '20120116183504', 'migration' => '', 'breakpoint' => 1),
+                ),
                 '20110115',
                 '`(?!.*20120116183504.*).*Breakpoint reached.*`s',
                 'Failed to rollback 0 migrations when the rollback date is before all the migrations and breakpoint set on all migrations',
-            ],
-        ];
+            ),
+        );
     }
 
     public function testExecuteSeedWorksAsExpected()
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $this->manager->setEnvironments(array('mockenv' => $envStub));
         $this->manager->seed('mockenv');
@@ -696,7 +696,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $this->manager->setEnvironments(array('mockenv' => $envStub));
         $this->manager->seed('mockenv', 'UserSeeder');
@@ -713,7 +713,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         // stub environment
         $envStub = $this->getMockBuilder('\Phinx\Migration\Manager\Environment')
-            ->setConstructorArgs(['mockenv', []])
+            ->setConstructorArgs(array('mockenv', array()))
             ->getMock();
         $this->manager->setEnvironments(array('mockenv' => $envStub));
         $this->manager->seed('mockenv', 'NonExistentSeeder');
@@ -825,14 +825,16 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         // ensure breakpoint is set
         $versions = $this->manager->getEnvironment('production')->getVersionLog();
-        $this->assertEquals(1, end($versions)['breakpoint']);
+        $end = end($versions);
+        $this->assertEquals(1, $end['breakpoint']);
 
         // reset all breakpoints
         $this->manager->removeBreakpoints('production');
 
         // ensure breakpoint is not set
         $versions = $this->manager->getEnvironment('production')->getVersionLog();
-        $this->assertEquals(0, end($versions)['breakpoint']);
+        $end = end($versions);
+        $this->assertEquals(0, $end['breakpoint']);
     }
 
     public function testBreakpointWithInvalidVersion()

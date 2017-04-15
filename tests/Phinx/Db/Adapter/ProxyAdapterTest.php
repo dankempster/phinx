@@ -19,7 +19,7 @@ class ProxyAdapterTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $stub = $this->getMockBuilder('\Phinx\Db\Adapter\PdoAdapter')
-            ->setConstructorArgs([[]])
+            ->setConstructorArgs(array(array()))
             ->getMock();
 
         $this->adapter = new ProxyAdapter($stub);

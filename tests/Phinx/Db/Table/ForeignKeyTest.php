@@ -94,6 +94,6 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOptionThrowsExceptionIfOptionIsNotString()
     {
-        $this->fk->setOptions(['update']);
+        $this->fk->setOptions(array('update'));
     }
 }

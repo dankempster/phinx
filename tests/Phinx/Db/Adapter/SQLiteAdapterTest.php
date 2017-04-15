@@ -22,7 +22,7 @@ class SQLiteAdapterTest extends \PHPUnit_Framework_TestCase
         $options = array(
             'name' => TESTS_PHINX_DB_ADAPTER_SQLITE_DATABASE
         );
-        $this->adapter = new SQLiteAdapter($options, new ArrayInput([]), new NullOutput());
+        $this->adapter = new SQLiteAdapter($options, new ArrayInput(array()), new NullOutput());
 
         // ensure the database is empty for each test
         $this->adapter->dropDatabase($options['name']);
@@ -671,9 +671,9 @@ class SQLiteAdapterTest extends \PHPUnit_Framework_TestCase
     public function testInserDataEnum()
     {
         $table = new \Phinx\Db\Table('table1', array(), $this->adapter);
-        $table->addColumn('column1', 'enum', array('values' => ['a', 'b', 'c']))
-              ->addColumn('column2', 'enum', array('values' => ['a', 'b', 'c'], 'null' => true))
-              ->addColumn('column3', 'enum', array('values' => ['a', 'b', 'c'], 'default' => 'c'))
+        $table->addColumn('column1', 'enum', array('values' => array('a', 'b', 'c')))
+              ->addColumn('column2', 'enum', array('values' => array('a', 'b', 'c'), 'null' => true))
+              ->addColumn('column3', 'enum', array('values' => array('a', 'b', 'c'), 'default' => 'c'))
               ->insert(array(
                   'column1' => 'a',
               ))

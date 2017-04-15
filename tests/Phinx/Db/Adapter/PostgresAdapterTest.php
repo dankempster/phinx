@@ -47,7 +47,7 @@ class PostgresAdapterTest extends \PHPUnit_Framework_TestCase
             'port' => TESTS_PHINX_DB_ADAPTER_POSTGRES_PORT,
             'schema' => TESTS_PHINX_DB_ADAPTER_POSTGRES_DATABASE_SCHEMA
         );
-        $this->adapter = new PostgresAdapter($options, new ArrayInput([]), new NullOutput());
+        $this->adapter = new PostgresAdapter($options, new ArrayInput(array()), new NullOutput());
 
         $this->adapter->dropAllSchemas();
         $this->adapter->createSchema($options['schema']);
@@ -88,7 +88,7 @@ class PostgresAdapterTest extends \PHPUnit_Framework_TestCase
         );
 
         try {
-            $adapter = new PostgresAdapter($options, new ArrayInput([]), new NullOutput());
+            $adapter = new PostgresAdapter($options, new ArrayInput(array()), new NullOutput());
             $adapter->connect();
             $this->fail('Expected the adapter to throw an exception');
         } catch (\InvalidArgumentException $e) {
@@ -319,19 +319,19 @@ class PostgresAdapterTest extends \PHPUnit_Framework_TestCase
     public function providerArrayType()
     {
         return array(
-            array('array_text', 'text[]'),
-            array('array_char', 'char[]'),
-            array('array_integer', 'integer[]'),
-            array('array_float', 'float[]'),
-            array('array_decimal', 'decimal[]'),
-            array('array_timestamp', 'timestamp[]'),
-            array('array_time', 'time[]'),
-            array('array_date', 'date[]'),
-            array('array_boolean', 'boolean[]'),
-            array('array_json', 'json[]'),
-            array('array_json2d', 'json[][]'),
-            array('array_json3d', 'json[][][]'),
-            array('array_uuid', 'uuid[]'),
+            array('array_text', 'textarray()'),
+            array('array_char', 'chararray()'),
+            array('array_integer', 'integerarray()'),
+            array('array_float', 'floatarray()'),
+            array('array_decimal', 'decimalarray()'),
+            array('array_timestamp', 'timestamparray()'),
+            array('array_time', 'timearray()'),
+            array('array_date', 'datearray()'),
+            array('array_boolean', 'booleanarray()'),
+            array('array_json', 'jsonarray()'),
+            array('array_json2d', 'jsonarray()array()'),
+            array('array_json3d', 'jsonarray()array()array()'),
+            array('array_uuid', 'uuidarray()'),
         );
     }
 
@@ -688,7 +688,7 @@ class PostgresAdapterTest extends \PHPUnit_Framework_TestCase
     public function testCreateTableWithComment()
     {
         $tableComment = 'Table comment';
-        $table = new \Phinx\Db\Table('ntable', ['comment' => $tableComment], $this->adapter);
+        $table = new \Phinx\Db\Table('ntable', array('comment' => $tableComment), $this->adapter);
         $table->addColumn('realname', 'string')
               ->save();
         $this->assertTrue($this->adapter->hasTable('ntable'));

@@ -71,7 +71,7 @@ class MysqlAdapterUnitTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Mysql tests disabled. See TESTS_PHINX_DB_ADAPTER_MYSQL_ENABLED constant.');
         }
 
-        $this->adapter = new MysqlAdapterTester(array(), new ArrayInput([]), new NullOutput());
+        $this->adapter = new MysqlAdapterTester(array(), new ArrayInput(array()), new NullOutput());
 
         $this->conn = $this->getMockBuilder('PDOMock')
                            ->disableOriginalConstructor()

@@ -824,7 +824,8 @@ class SQLiteAdapter extends PdoAdapter implements AdapterInterface
         $sql .= "(". implode(', ', array_map(array($this, 'quoteColumnName'), $columns)) . ")";
         $sql .= " VALUES ";
 
-        $sql .= "(" . implode(', ', array_map(function ($value) {
+        $that = $this;
+        $sql .= "(" . implode(', ', array_map(function ($value) use ($that) {
                 if (is_numeric($value)) {
                     return $value;
                 }
@@ -833,7 +834,7 @@ class SQLiteAdapter extends PdoAdapter implements AdapterInterface
                     return 'null';
                 }
 
-                return $this->getConnection()->quote($value);
+                return $that->getConnection()->quote($value);
             }, $row)) . ")";
 
         $this->execute($sql);

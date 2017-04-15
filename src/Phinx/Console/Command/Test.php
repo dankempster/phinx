@@ -77,13 +77,13 @@ EOT
 
         // Verify the migrations path(s)
         array_map(
-            [$this, 'verifyMigrationDirectory'],
+            array($this, 'verifyMigrationDirectory'),
             Util::globAll($this->getConfig()->getMigrationPaths())
         );
 
         // Verify the seed path(s)
         array_map(
-            [$this, 'verifySeedDirectory'],
+            array($this, 'verifySeedDirectory'),
             Util::globAll($this->getConfig()->getSeedPaths())
         );
 
